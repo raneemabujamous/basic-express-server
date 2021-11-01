@@ -5,7 +5,7 @@ require("dotenv").config();
 const logger = require("./middleware/logger");
 const handle404error = require("./error-handlers/404");
 const handle500eror = require("./error-handlers/500");
-const vaildName = require("./middleware/logger");
+const vaildName = require("./middleware/validator");
 const PORT = process.env.PORT;
 app.get("/home", (req, res) => {
   res.status(200).send("hi from home route");
@@ -13,17 +13,17 @@ app.get("/home", (req, res) => {
 app.put("/home", (req, res) => {
   res.status(200).send("hi from home route");
 });
-app.use("*", handle404error);
-app.use(logger);
-app.use(handle500eror);
+app.get("/person", vaildName, (req, res) => {
+  res.send({
+    name: req.query.name,
+  });
+});
 app.get("/error", (req, res, next) => {
   throw new Error("You made an Error 500 🛑❗");
 });
-app.get("/person", vaildName, (req, res) => {
-  res.send({
-    name: req.name,
-  });
-});
+app.use("*", handle404error);
+app.use(logger);
+app.use(handle500eror);
 
 function start() {
   app.listen(PORT, () => {
