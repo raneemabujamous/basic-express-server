@@ -12,7 +12,7 @@ describe("test end point", () => {
     const response = await mockRequest.get("/raneem");
     expect(response.status).toBe(404);
   });
-  test("500 is handle", async () => {
+  test("should respond with 500 on an error", async () => {
     const response = await mockRequest.get("/error");
     expect(response.status).toBe(500);
   });
